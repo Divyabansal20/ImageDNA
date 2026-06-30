@@ -137,16 +137,13 @@ def extract_fft_features(processed: ProcessedImage):
 
     high_frequency_ratio = high_energy / (total_energy + 1e-8)
 
+    print(f"High Frequency Ratio : {high_frequency_ratio:.4f}")
+
     return (
-
         float(fft_mean),
-
         float(fft_std),
-
         float(fft_energy),
-
         float(high_frequency_ratio)
-
     )
 
 
@@ -476,8 +473,7 @@ def extract_features(processed: ProcessedImage, return_evidence=False):
     if high_frequency_ratio < 0.74:
         evidence.append("Reduced high-frequency information")
 
-    if fft_energy < 5e8:
-        evidence.append("Reduced high-frequency information")
+
 
 
     # -----------------------------
