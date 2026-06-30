@@ -8,8 +8,6 @@ __pycache__/
 # Outputs
 outputs/
 
-# Models
-models/
 
 # VS Code
 .vscode/
