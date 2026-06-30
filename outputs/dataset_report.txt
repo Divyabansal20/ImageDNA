@@ -1,0 +1,29 @@
+============================================================
+              ImageDNA Dataset Report
+============================================================
+
+Real Images   : 70
+Screen Images : 70
+
+Corrupted Images
+Real   : 0
+Screen : 0
+
+Image Formats
+Real   : {'JPEG': 70}
+Screen : {'JPEG': 70}
+
+Resolution Range
+Real   : 720x721  →  1600x1600
+Screen : 810x899  →  1600x1600
+
+Average Resolution
+Real   : 1004.5 × 1474.8
+Screen : 1237.8 × 1331.8
+
+RGB Images
+Real   : 70
+Screen : 70
+
+✓ Dataset validation passed.
+============================================================
