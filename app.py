@@ -7,6 +7,7 @@ Explainable Machine Learning
 
 from pathlib import Path
 import tempfile
+import time
 
 import streamlit as st
 from PIL import Image
@@ -166,8 +167,12 @@ with st.sidebar:
                     <td style='text-align: right; font-weight: 600; padding-bottom: 4px;'>5-Fold Stratified</td>
                 </tr>
                 <tr>
-                    <td style='color: #94a3b8;'>Model Accuracy</td>
-                    <td style='text-align: right; font-weight: 600; color: #10b981;'>84.19%</td>
+                    <td style='color: #94a3b8; padding-bottom: 4px;'>Model Accuracy</td>
+                    <td style='text-align: right; font-weight: 600; color: #10b981; padding-bottom: 4px;'>84.19%</td>
+                </tr>
+                <tr>
+                    <td style='color: #94a3b8;'>Avg. Latency</td>
+                    <td style='text-align: right; font-weight: 600; color: #38bdf8;'>~20 ms (Laptop CPU)</td>
                 </tr>
             </table>
         </div>
@@ -237,7 +242,9 @@ if analyze:
         temp_path = Path(temp_file.name)
 
     with st.spinner("Extracting forensic descriptors and running verification..."):
+        start_time = time.perf_counter()
         result = predict_image(temp_path)
+        latency_ms = (time.perf_counter() - start_time) * 1000
 
     prediction = result["prediction"]
     confidence = result["confidence"]
@@ -263,6 +270,14 @@ if analyze:
                     <span>💻</span> Screen Capture / Display Photo
                 </div>
             """, unsafe_allow_html=True)
+        
+        st.markdown(f"""
+            <div style='font-size: 0.9rem; color: #94a3b8; margin-top: -0.5rem; display: flex; align-items: center; gap: 6px;'>
+                <span>⏱️</span> <span>Inference Latency:</span> 
+                <span style='color: #38bdf8; font-weight: 600;'>{latency_ms:.1f} ms</span> 
+                <span style='color: #64748b; font-size: 0.8rem;'>(Laptop CPU)</span>
+            </div>
+        """, unsafe_allow_html=True)
 
     with col_results2:
         # Map numerical confidence to descriptive rating
