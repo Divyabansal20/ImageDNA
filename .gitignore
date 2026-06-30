@@ -1,0 +1,15 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# Outputs
+outputs/
+
+# Models
+models/
+
+# VS Code
+.vscode/
