@@ -1,18 +1,29 @@
 """
-Central place for all project paths and settings.
-If something changes later, we only update this file.
+config.py
+
+Stores all project paths and a few common settings.
+If a folder name changes in the future, update it here only.
 """
 
 from pathlib import Path
 
-# Project root (ImageDNA/)
+# Root directory of the project (ImageDNA/)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
-# Dataset folders
+# Dataset Paths
+
 DATASET_DIR = PROJECT_ROOT / "dataset"
+
 REAL_DIR = DATASET_DIR / "real"
 SCREEN_DIR = DATASET_DIR / "screen"
 
-# Output folders
-OUTPUT_DIR = PROJECT_ROOT / "outputs"
-MODEL_DIR = PROJECT_ROOT / "models"
+# Output Paths
+
+MODELS_DIR = PROJECT_ROOT / "models"
+OUTPUTS_DIR = PROJECT_ROOT / "outputs"
+
+# Image Settings
+
+SUPPORTED_IMAGE_FORMATS = {".jpg", ".jpeg", ".png"}
+
+DEFAULT_IMAGE_SIZE = (512, 512)
