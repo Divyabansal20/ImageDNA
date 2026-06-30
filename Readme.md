@@ -95,7 +95,35 @@ ImageDNA/
     ├── predictor.py        # Inference pipeline & expert override logic
     └── trainer.py          # 5-Fold Stratified Cross-Validation trainer
 ```
+# 📸 Demo Images
 
+## Home Page
+
+![Home Page](Demo%20Screenshots/demo1.png)
+
+---
+
+## Upload Image
+
+![Upload Image](Demo%20Screenshots/Demo2.png)
+
+---
+
+## Prediction Result
+
+![Prediction Result Real Capture ](Demo%20Screenshots/Demo3.png)
+
+---
+
+## Explainability Dashboard
+
+![Upload Image](Demo%20Screenshots/Demo4.png)
+
+---
+
+## Performance Metrics
+
+![Perdiction Result Screen Captured](Demo%20Screenshots/Demo5.png)
 ---
 
 ## ⚡ Setup & Installation
