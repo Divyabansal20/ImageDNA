@@ -95,6 +95,9 @@ ImageDNA/
     ├── predictor.py        # Inference pipeline & expert override logic
     └── trainer.py          # 5-Fold Stratified Cross-Validation trainer
 ```
+## Live link
+
+[Visit The live Demo](https://imagedna.streamlit.app/)
 # 📸 Demo Images
 
 ## Home Page
