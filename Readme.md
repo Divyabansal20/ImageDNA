@@ -109,19 +109,19 @@ ImageDNA/
 
 ---
 
-## Prediction Result
+## Prediction Result: Real Image
 
 ![Prediction Result Real Capture ](Demo%20Screenshots/Demo3.png)
 
 ---
 
-## Explainability Dashboard
+## Upload Image
 
 ![Upload Image](Demo%20Screenshots/Demo4.png)
 
 ---
 
-## Performance Metrics
+## Prediction Result: Screen Captured
 
 ![Perdiction Result Screen Captured](Demo%20Screenshots/Demo5.png)
 ---
