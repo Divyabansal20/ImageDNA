@@ -29,6 +29,7 @@ FEATURE_NAMES = [
     "fft_mean",
     "fft_std",
     "fft_energy",
+    "high_frequency_ratio",
 
     "noise_mean",
     "noise_std",
@@ -95,10 +96,12 @@ def extract_fft_features(processed: ProcessedImage):
     """
     Extracts frequency-domain statistics.
 
-    Screen recaptured images usually lose
-    high-frequency information.
+    Besides overall FFT statistics, we also compute
+    how much energy lies in the outer (high-frequency)
+    region of the spectrum.
     """
 
+    # Compute FFT
     fft = np.fft.fft2(processed.gray)
 
     fft_shift = np.fft.fftshift(fft)
@@ -109,15 +112,43 @@ def extract_fft_features(processed: ProcessedImage):
 
     fft_std = magnitude.std()
 
-    # Average energy instead of total energy.
-# This makes the feature independent of image size.
     fft_energy = np.mean(magnitude ** 2)
 
-    return (
-        float(fft_mean),
-        float(fft_std),
-        float(fft_energy)
+    rows, cols = magnitude.shape
+
+    center_row = rows // 2
+
+    center_col = cols // 2
+
+    radius = min(rows, cols) // 4
+
+    y, x = np.ogrid[:rows, :cols]
+
+    distance = np.sqrt(
+        (x - center_col) ** 2 +
+        (y - center_row) ** 2
     )
+
+    high_frequency = magnitude[distance > radius]
+
+    total_energy = np.sum(magnitude)
+
+    high_energy = np.sum(high_frequency)
+
+    high_frequency_ratio = high_energy / (total_energy + 1e-8)
+
+    return (
+
+        float(fft_mean),
+
+        float(fft_std),
+
+        float(fft_energy),
+
+        float(high_frequency_ratio)
+
+    )
+
 
 # Noise Features
 
@@ -431,18 +462,19 @@ def extract_features(processed: ProcessedImage, return_evidence=False):
 
     # -----------------------------
     # FFT
-    # -----------------------------
-    fft_mean, fft_std, fft_energy = extract_fft_features(processed)
+
+
+    fft_mean, fft_std, fft_energy, high_frequency_ratio = extract_fft_features(processed)
 
     features.extend([
-
         fft_mean,
-
         fft_std,
-
-        fft_energy
-
+        fft_energy,
+        high_frequency_ratio
     ])
+
+    if high_frequency_ratio < 0.74:
+        evidence.append("Reduced high-frequency information")
 
     if fft_energy < 5e8:
         evidence.append("Reduced high-frequency information")

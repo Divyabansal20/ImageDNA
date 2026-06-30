@@ -27,6 +27,7 @@ TRAIN_FEATURES = [
     "fft_mean",
     "fft_std",
     "fft_energy",
+    "high_frequency_ratio",
 
     "noise_mean",
     "noise_std",
