@@ -12,7 +12,7 @@ import pandas as pd
 
 from src.config import MODELS_DIR
 from src.preprocessing import preprocess_image
-from src.feature_extractor import extract_features
+from src.feature_extractor import extract_features, FEATURE_NAMES
 
 
 # Features used while training the model
@@ -69,9 +69,12 @@ def predict_image(image_path: Path):
         return_evidence=True
     )
 
+    # Map features to FEATURE_NAMES
+    features_dict = dict(zip(FEATURE_NAMES, features))
+
     # Keep only the features used during training
     feature_dataframe = pd.DataFrame(
-        [features[:len(TRAIN_FEATURES)]],
+        [[features_dict[name] for name in TRAIN_FEATURES]],
         columns=TRAIN_FEATURES
     )
 
@@ -80,7 +83,23 @@ def predict_image(image_path: Path):
 
     # Prediction confidence
     probabilities = model.predict_proba(feature_dataframe)[0]
-    confidence = probabilities[prediction] * 100
+
+    # Borderline override: If the statistical model is borderline (Screen Capture probability >= 45%)
+    # and explicit forensic anomalies (e.g. weak edge density or reduced frequency) are detected,
+    # override to Screen Capture to align with explainable machine learning principles.
+    if prediction == 0 and probabilities[1] >= 0.45:
+        suspicious_evidence = {
+            "Weak edge density",
+            "Reduced high-frequency information",
+            "Low image sharpness"
+        }
+        if any(item in suspicious_evidence for item in evidence):
+            prediction = 1
+            confidence = probabilities[1] * 100
+        else:
+            confidence = probabilities[0] * 100
+    else:
+        confidence = probabilities[prediction] * 100
 
     # Convert numeric prediction to text
     if prediction == 0:

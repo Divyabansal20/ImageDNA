@@ -12,6 +12,8 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
+from src.config import DEFAULT_IMAGE_SIZE
+
 
 @dataclass
 class ProcessedImage:
@@ -67,6 +69,9 @@ def preprocess_image(image_path: Path) -> ProcessedImage:
     """
 
     rgb_image = load_image(image_path)
+
+    # Standardize image size to DEFAULT_IMAGE_SIZE using area interpolation
+    rgb_image = cv2.resize(rgb_image, DEFAULT_IMAGE_SIZE, interpolation=cv2.INTER_AREA)
 
     gray_image = convert_to_grayscale(rgb_image)
 
